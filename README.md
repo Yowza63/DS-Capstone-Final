@@ -17,4 +17,5 @@ There are three other files -
 
 Running the R script or knitting the Markdown file each take a few minutes to complete.
 
+Configuration: This code was written using R version 4.0.2 (2020-06-22). Libraries needed to run the code will download within the script.
 
