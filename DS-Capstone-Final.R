@@ -1,7 +1,7 @@
 ##################################################################################################################
 # Project DS-Capstone-Final for HarvardX -  PH125.9x, Data Science: Capstone
 # Becky Johnson / Github: Yowza63
-# R code to generate dataset and analysis to predict the county level death rate from COVID-19 in the US
+# R code to generate data set and analysis to predict the county level death rate from COVID-19 in the US
 ##################################################################################################################
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -37,7 +37,7 @@ if(!require(randomForest)) install.packages("randomForest", repos = "http://cran
 # Extend the basic functionality of tables produced using knitr::kable()
 if(!require(kableExtra)) install.packages("kableExtra", repos = "http://cran.us.r-project.org")
 
-# Package of datasets, functions to go along with the book "Data Visualization: A Practical Introduction" (Princeton University Press, 2019)
+# Package of data sets, functions to go along with the book "Data Visualization: A Practical Introduction" (Princeton University Press, 2019)
 if(!require(socviz)) install.packages("socviz", repos = "http://cran.us.r-project.org")
 
 # A graphical display of the correlation matrix
@@ -50,8 +50,8 @@ if(!require(ggthemes)) install.packages("ggthemes", repos = "http://cran.us.r-pr
 if(!require(gtools)) install.packages("gtools", repos = "http://cran.us.r-project.org")
 
 # ---------------------------------------------------------------------------------------------------------------
-# STEP 1: Create the Dataset
-# Create a dataset of various health and socioeconomic variables for every county in the US and add
+# STEP 1: Create the Data set
+# Create a data set of various health and socioeconomic variables for every county in the US and add
 # COVID-19 data for cases, deaths, and mask usage
 # ---------------------------------------------------------------------------------------------------------------
 
@@ -87,12 +87,12 @@ dat$fips <- strtoi(dat$fips)
 dat <- dat[, c("name", "fips", "state", "county", "poverty", "over85", "age74to85", "insured", 
   "private_insured", "household_size", "owner_occ", "african_am", "native_am", "hispanic")]
 
-# STEP 1b: Incorporate the NY Times COVID-19 cases and deaths to compute the death rate by county
-# This file was downloaded from the NY Times site and then stored in my Github repository
+# STEP 1b: Incorporate the New York Times COVID-19 cases and deaths to compute the death rate by county
+# This file was downloaded from the New York Times site and then stored in my Github repository
 # download.file("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties-recent.csv", "us-counties-recent.csv")
-# The NYTimes files are updated daily so I needed to save one to repeatability of my analysis
+# The New York Times files are updated daily so I needed to save one to repeatability of my analysis
 
-# Download NYTimes file from  Github repository
+# Download New York Times file from  Github repository
 dl_nyt <- tempfile()
 download.file("https://raw.githubusercontent.com/Yowza63/DS-Capstone-Final/main/us-counties-recent.csv", dl_nyt)
 dat_nyt <- as.data.frame(read.csv(dl_nyt)) # load the data 
@@ -112,7 +112,7 @@ dat_nyt <- select(dat_nyt, fips, cases, deaths, death_rate)
 # Add the COVID-19 data to dat using inner_join() to keep only the fips codes that are in both tables. 
 dat <- inner_join(dat, dat_nyt, by = "fips")
 
-# STEP 1c: Incorporate the NY Times mask use information
+# STEP 1c: Incorporate the New York Times mask use information
 # https://github.com/nytimes/covid-19-data
 # download.file("https://raw.githubusercontent.com/nytimes/covid-19-data/master/mask-use/mask-use-by-county.csv", "mask-use.csv")
 
@@ -190,7 +190,7 @@ dat$air_quality[which(is.na(dat$air_quality) == TRUE)] <- mean(dat$air_quality[w
 # Show the min, max, and quartile for each variable
 summary(dat)
 
-# The number of counties in the dataset
+# The number of counties in the data set
 nrow(dat)
 
 # Look at counties with the top 10 highest death rates
@@ -237,7 +237,7 @@ dat %>% ggplot(aes(x=death_rate)) +
 # STEP 3: Split the data into train (70%), test (30%), and validation (15%)
 # ---------------------------------------------------------------------------------------------------------------
 
-# remove columns from dat not needed for regression
+# remove columns from dat not needed for modeling
 tmp <- dat%>% select(-"name", -"state", -"county")
 
 # set the seed for replicability
@@ -356,7 +356,7 @@ rf_tune <- tuneRF(
 rf_tune <- as.data.frame(rf_tune)
 best_mtry <- rf_tune$mtry[which(rf_tune$OOBError == min(rf_tune$OOBError))]
 
-# Update our model with the results of tuning
+# Create a model with the results of tuning
 rf <- randomForest::randomForest(
   formula = death_rate ~ .,
   data    = train_set,
@@ -386,7 +386,7 @@ kbl(rmse_results, booktabs = T) %>% kable_styling(latex_options = "striped")
 # STEP 5: Evaluate the final model on the holdout validation set
 # ---------------------------------------------------------------------------------------------------------------
 
-# Use the validation set to confirm the results of several of our models
+# Use the validation set to confirm the results of the models
 
 # Predict the results for the simple average and add to our table
 just_the_average <- RMSE(validation_set$death_rate, mean(validation_set$death_rate))
