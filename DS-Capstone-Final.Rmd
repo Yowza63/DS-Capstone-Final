@@ -187,7 +187,9 @@ dat <- dat[, c("name", "fips", "state", "county", "poverty", "over85", "age74to8
 ### New York Times COVID-19 Data (Step 1b in DS-Capstone-Final.R)
 Next, incorporate the New York Times COVID-19 cases and deaths to compute the death rate by county. This file was downloaded from the New York Times site and then stored in my Github repository. To download the file I used the r code: download.file("https://raw.githubusercontent.com/nytimes/covid-19-data/master/us-counties-recent.csv", "us-counties-recent.csv"). Because the New York Times files are updated daily, it was important to save one to create repeatability of the analysis.
 
-```{r nyt_covid, echo = TRUE}
+This file has 29 rows of data for which the FIPS code is "NA" including New York City. These will be ignored when the dat_nyc is joined to dat which is the census data previously downloaded. 
+
+```{r nyt_covid, echo = TRUE, results = FALSE}
 
 # Download New York Times file from  Github repository
 dl_nyt <- tempfile()
@@ -236,7 +238,7 @@ dat <- inner_join(dat, mask, by = "fips")
 ### Add county level health statistics (Step 1d in DS-Capstone-Final.R) 
 This data is from the University of Wisconsin Population Health Institute. To download the original file I selected the file "2020 CHR CSV Analytic Data", from the following site -  <https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation> Documentation for this data can be found here - <https://www.countyhealthrankings.org/sites/default/files/media/document/2021%20Analytic%20Documentation.pdf> 
 
-```{r county_health, echo = TRUE, message = FALSE, results = FALSE}
+```{r county_health, echo = TRUE, warning = FALSE, results = FALSE}
 
 # Download the previously downloaded file stored on my Github repository
 dl_chr <- tempfile()
@@ -291,7 +293,7 @@ dat$air_quality[which(is.na(dat$air_quality) == TRUE)] <- mean(dat$air_quality[w
 ****
 
 ## Exploration (Step 2 in DS-Capstone-Final.R)
-Now that we've built the dataframe for the analysis, lets get a sense of the data. The final dataframe, dat, has `r nrow(dat)` counties across `r ncol(dat)` columns.
+The dataframe "dat", has `r nrow(dat)` counties across `r ncol(dat)` columns. Each row represents a county. There are four columns that identify the county - fips, name, county, and state. The remaining columns are death-rate defined as total COVID-19 related deaths divided by total cases and 24 features that will be used to build a predictive model.
 
 Lets look at counties with the top 10 highest death rates. The highest death rate is 10.5% for people who've contracted COVID-19, but the number of cases is only 38 so likely an anomaly. In fact, all of the top 10 counties in terms of death rate have had fewer than 1,000 cases. However, relatively high percentages of their population are in the age range of 74 to 85 and some have higher than average concentrations of Hispanic and/or African Americans.
  
@@ -336,7 +338,6 @@ p2 + labs(fill = "COVID-19 Death Rate (Deaths/Cases)") +
 
 ```
  
-
 The corrplot function is used to create a table showing the correlation across variables. There are not strong correlations apparent between the death_rate column and other variables, but there are strong correlations across variables such as poverty and poor_health.
 
 ```{r corrplot, echo = FALSE, fig.margin = TRUE, fig.width=10, fig.height=12, fig.fullwidth=TRUE}
@@ -365,7 +366,7 @@ dat %>% ggplot(aes(x=death_rate)) +
  
 TODO: Start here!! 
 ## Model Fitting (Methods)
-To build a predictive model for the percent of people who die who test positively for COVID-19 (death_rate), we'll start with a basic model of predicting at the overall average and a linear regression model using obesity, age, air quality, and poverty. Then we'll apply the more advanced approaches of a cross-validated bootstrap aggregated regression tree and random forest. First, however, we'll split the data in to three subsets - 1) train_set (70%) to fit the models, 2) test_set (15%) to test the models, and 3) validation_set (15%) to independently validate the model at the very end.
+To build a predictive model for the percent of people who die of those who have contracted COVID-19 (death_rate), we'll start with a basic model of predicting at the overall average and a linear regression model using obesity, age, air quality, and poverty. Then we'll apply the more advanced approaches of a cross-validated bootstrap aggregated regression tree and random forest. First, however, we'll split the data in to three subsets - 1) train_set (70%) to fit the models, 2) test_set (15%) to test the models, and 3) validation_set (15%) to independently validate the model at the very end.
 
 ****
 
@@ -582,13 +583,11 @@ kbl(rmse_results, booktabs = T) %>% kable_styling(latex_options = "striped")
 ****
 
 # Conclusion 
-This study set out to create a county level data set of demographic, health, and COVID-19 data set to then create a predictive model to guess the rate of death from COVID-19 for those who've contracted the disease (deaths/cases). The modelling  approaches included a simple "Just the Average" approach, a linear regression model, a regression tree model with bootstrap aggregating, and finally a random forest approach. The best performing model was the random forest which had an RMSE of less than .005%. 
+This study set out to create a county level data set of demographic, health, and COVID-19 observations to then build a predictive model to guess the rate of death from COVID-19 for those who've contracted the disease (deaths/cases). The modelling  approaches included a simple "Just the Average" approach, a linear regression model, a regression tree model with bootstrap aggregating, and finally a random forest approach. The best performing model was the random forest which had an RMSE of less than .005%. 
 
-While the random forest model preforms relatively well, it doesn't necessarily provide information to guide policy. Understanding which counties are experiencing higher death rates per case from a contagious disease could help policy makers decide where resources such as personal protective gear, ventilators, medical workers, etc. should be allocated. In addition, it may help us understand the impacts of long term environmental conditions such as years of poor air quality.
+While the random forest model preforms relatively well, there is clearly room for improvement. The model results are also a bit of a "black box" and would be difficult to translate into policy. That could be addressed by pairing the model results with descriptive analytics. Re-running the analysis with more granular data such as Census tract level information if available could build a model that was both more predictive and provide analytics that were more specific to needs of different geographies.
 
-While the random forest approach lets us see the importance of different variables, it doesn't help us intuitively understand these variables or how they interact with other observations in our data set. More granular data, such as Census tract level information, could help address these challenges.
-
-Finally, The New York City data, ideally, would be included in the analysis. To do so, we'd need to pull the numerator and denominator for each of the census Percent Estimate fields in order to aggregate the five counties into the comparable New York City data available at the New York Times. This may or may not improve the predictability of the overall model, but would be important for any demographic analysis.
+Finally, The New York City data, ideally, would be included in the analysis. To do so, we'd define a way to aggregate the five counties into the comparable New York City data available at the New York Times. This may or may not improve the predictability of the overall model, but would be important for any demographic analysis.
 
 ****
 
