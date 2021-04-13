@@ -585,9 +585,9 @@ kbl(rmse_results, booktabs = T) %>% kable_styling(latex_options = "striped")
 # Conclusion 
 This study set out to create a county level data set of demographic, health, and COVID-19 observations to then build a predictive model to guess the rate of death from COVID-19 for those who've contracted the disease (deaths/cases). The modelling  approaches included a simple "Just the Average" approach, a linear regression model, a regression tree model with bootstrap aggregating, and finally a random forest approach. The best performing model was the random forest which had an RMSE of less than .005%. 
 
-While the random forest model preforms relatively well, there is clearly room for improvement. The model results are also a bit of a "black box" and would be difficult to translate into policy. That could be addressed by pairing the model results with descriptive analytics. Re-running the analysis with more granular data such as Census tract level information if available could build a model that was both more predictive and provide analytics that were more specific to needs of different geographies.
+While the random forest model preforms relatively well, there is room for improvement. The model results are also a bit of a "black box" and would be difficult to translate into policy. That could be addressed by pairing the model results with robust descriptive analytics. Re-running the analysis with more granular data such as Census tract level information if available could build a model that was both more predictive and provide analytics that were more specific to needs of different geographies.
 
-Finally, The New York City data, ideally, would be included in the analysis. To do so, we'd define a way to aggregate the five counties into the comparable New York City data available at the New York Times. This may or may not improve the predictability of the overall model, but would be important for any demographic analysis.
+Finally, The New York City data would ideally be included in the analysis. To do so, we'd define a way to aggregate the five counties into the comparable New York City data available at the New York Times. This may or may not improve the predictability of the overall model, but would be important for any demographic analysis.
 
 ****
 
@@ -603,27 +603,27 @@ During the process of putting together this report and building the underlying R
 
 4. US Census Bureau, "Demystifying the Census API", Published: July 22, 2020, Accessed: March 2021,  <https://www.youtube.com/watch?v=dlOUZcrqiUA> (Step-by-step instructions on how to pull data using the public API)
 
-5. US Census Bureau, "UNDERSTANDING AND USING ACS SINGLE- YEAR AND MULTIYEAR ESTIMATES", Accessed: March 2021, <https://www.census.gov/content/dam/Census/library/publications/2018/acs/acs_general_handbook_2018_ch03.pdf> (A description of the 1-year, 1-year supplemental 3-year, and 5-year ACS tables)
+5. US Census Bureau, "UNDERSTANDING AND USING ACS SINGLE- YEAR AND MULTIYEAR ESTIMATES", Accessed: March 2021, <https://www.census.gov/content/dam/Census/library/publications/2018/acs/acs_general_handbook_2018_ch03.pdf> (A description of the 1-year, 1-year supplemental, 3-year, and 5-year ACS tables)
 
 6. US Census Bureau, "Table IDs Explained", Accessed: March 2021,  <https://www.census.gov/programs-surveys/acs/guidance/which-data-tool/table-ids-explained.html> (An explanation of American Community Survey variable names)
 
-7. US Census Bureau, "American Community Survey Information Guide", Accessed: March 2021, <https://www.census.gov/content/dam/Census/programs-surveys/acs/about/ACS_Information_Guide.pdf> (General overview of the ACS)
+7. US Census Bureau, "American Community Survey Information Guide", Accessed: March 2021, <https://www.census.gov/content/dam/Census/programs-surveys/acs/about/ACS_Information_Guide.pdf> (General overview of the American Community Survey)
 
-8. US Census Bureau, "Census Data API: Variables in /data/2019/acs/acs5/profile/variables", Accessed: March 2021, <https://api.census.gov/data/2019/acs/acs5/profile/variables.html> (A comprehensive list of variables available for the ACS 5-year table)
+8. US Census Bureau, "Census Data API: Variables in /data/2019/acs/acs5/profile/variables", Accessed: March 2021, <https://api.census.gov/data/2019/acs/acs5/profile/variables.html> (A comprehensive list of variables available for the American Community Survey 5-year table)
 
 9. The New York Times. (2021). Coronavirus (COVID-19) Data in the United States. Retrieved April 9, 2021, from <https://github.com/nytimes/covid-19-data> (Data from The New York Times, based on reports from state and local health agencies)
 
 10. Mask Usage Estimates from The New York Times, based on roughly 250,000 interviews conducted by Dynata from July 2 to July 14, Published: July 2021, Accessed: April 2, 2021,  <https://github.com/nytimes/covid-19-data/tree/master/mask-use> (Data showing level of consistent mask use by county)
 
-11. County Health Rankings & Roadmaps, University of Wisconsin Population Health Institute, 2020, Accessed: March 28, 2021, <https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation> (A comprehensive data set of county level population health metrics. File layout, data explanations and sources are available in the documentation found here -  <https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20Analytic%20Documentation_0.pdf)>
+11. County Health Rankings & Roadmaps, University of Wisconsin Population Health Institute, 2020, Accessed: March 28, 2021, <https://www.countyhealthrankings.org/explore-health-rankings/rankings-data-documentation> (A comprehensive data set of county level population health metrics. File layout, data explanations and sources are available in the documentation found here -  <https://www.countyhealthrankings.org/sites/default/files/media/document/2020%20Analytic%20Documentation_0.pdf>)
 
-12. University of Cincinnati, "Regression Trees", Published: April 28, 2018, Accessed: March: 2021, <http://uc-r.github.io/regression_trees> (A helpful tutorial on building a Regression Tree model in R)
+12. University of Cincinnati, "Regression Trees", Published: April 28, 2018, Accessed: March: 2021, <http://uc-r.github.io/regression_trees> (A tutorial for building a Regression Tree model in R)
 
-13. University of Cincinnati, "Random Forests", Published: May 9, 2018, Accessed: March: 2021, <http://uc-r.github.io/random_forests> (A helpful tutorial on building a Random Forest model in R)
+13. University of Cincinnati, "Random Forests", Published: May 9, 2018, Accessed: March: 2021, <http://uc-r.github.io/random_forests> (A tutorial for building a Random Forest model in R)
 
 14. Kieran Healy, "Data Visualization - A practical introduction, Chapter 7: Draw Maps", Published: 2018-04-25, Accessed: April 2021. <https://socviz.co/maps.html> (An easy to follow approach to creating a map of county level data)
 
-15. Nevo Itzhak, Tomer Shahar, Robert Moskovich, "The Impact of U.S. County-Level Factors on COVID-19 Morbidity and Mortality", Accessed: March 2021, <https://doi.org/10.1101/2021.01.19.21250092>, (A research paper describing a machine learning model to predict Morbidity and Mortality)
+15. Nevo Itzhak, Tomer Shahar, Robert Moskovich, "The Impact of U.S. County-Level Factors on COVID-19 Morbidity and Mortality", Accessed: March 2021, <https://doi.org/10.1101/2021.01.19.21250092>, (A research paper describing a machine learning model to predict Morbidity and Mortality related to COVID-19)
 
 16. "Federal Information Processing System (FIPS) Codes for States and Counties", Accessed: March 2021,  Source: <https://transition.fcc.gov/oet/info/maps/census/fips/fips.txt> (An explanation of FIPS codes)
 

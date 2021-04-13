@@ -9,7 +9,7 @@ The repository includes three data files that are called by the R and Rmd files 
 * mask-use.csv - a survey of county level mask use published by the New York Times
 * analytic_data2020_0.csv - county level health data from the county health rankings published by the University of Wisconsin Population Health Institute
 
-There are three other files - 
+There are three other files in the repository - 
 
 * DS-Capstone-Final.Rmd - the report with explanations in R Markdown format
 * DS-Capstone-Final.R - the R script used to generate the dataset and analysis

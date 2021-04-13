@@ -1,7 +1,7 @@
 ##################################################################################################################
 # Project DS-Capstone-Final for HarvardX -  PH125.9x, Data Science: Capstone
 # Becky Johnson / Github: Yowza63
-# R code to generate data set and analysis to predict the county level death rate from COVID-19 in the US
+# R code to generate data set and analysis to predict county level death rate from COVID-19 in the US
 ##################################################################################################################
 
 # ---------------------------------------------------------------------------------------------------------------
