@@ -364,7 +364,6 @@ dat %>% ggplot(aes(x=death_rate)) +
 
 ```
  
-TODO: Start here!! 
 ## Model Fitting (Methods)
 To build a predictive model for the percent of people who die of those who have contracted COVID-19 (death_rate), we'll start with a basic model of predicting at the overall average and a linear regression model using obesity, age, air quality, and poverty. Then we'll apply the more advanced approaches of a cross-validated bootstrap aggregated regression tree and random forest. First, however, we'll split the data in to three subsets - 1) train_set (70%) to fit the models, 2) test_set (15%) to test the models, and 3) validation_set (15%) to independently validate the model at the very end.
 
